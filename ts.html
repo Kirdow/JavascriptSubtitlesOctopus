@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer" />
+  <link rel="shortcut icon" href="./favicon.ico?v=wAOz4X2G7G">
+  <title>SubtitleOctopus - Advanced Substation Alpha Library for WebAssembly & asm.js</title>
+  <link integrity="" rel="stylesheet" href="./assets/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.rawgit.com/que-etc/resize-observer-polyfill/master/dist/ResizeObserver.js"></script>
+  <style>
+    video {
+      transition: all 1s linear;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="./index.html">SubtitlesOctopus</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nb" aria-controls="nb"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="nb">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="./index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/Dador/JavascriptSubtitlesOctopus">Github</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="content" style="padding-top: 25px;">
+
+    <video id="video" autoplay controls style="width:1280px; height:720px" src="https://animethemes.moe/video/FateGrandOrderBabylonia-OP1v2-NCBD1080.webm"></video>
+
+    <br>
+    Thanks to <a href="https://animethemes.moe/" target="_blank">animethemes.moe</a> for hosting this video.
+    <br>
+    <br>
+    <button type="button" class="btn btn-primary" onclick="changeResolution(1024, 576);">Change resolution to
+      1024x576</button>
+    <button type="button" class="btn btn-primary" onclick="changeResolution(1280, 720);">Change resolution to
+      1280x720</button>
+    <button type="button" class="btn btn-primary" onclick="changeResolution(1600, 900);">Change resolution to
+      1600x900</button>
+    <button type="button" class="btn btn-primary" onclick="changeResolution(1920, 1080);">Change resolution to
+      1920x1080</button>
+    <button type="button" class="btn btn-primary" onclick="changeResolution(3840, 2160);">Change resolution to
+      3840x2160</button>
+  </div>
+  <script type="module">
+    import SubtitleOctopus from './assets/js/subtitles-octopus.js'
+    // This would look more nice as a plugin but is's just as showcase of using with custom players
+    var options = {
+      video: video,
+      subUrl: '/subtitles/FGOBD.ass',
+      fonts: [
+        '/fonts/Averia Sans Libre Light.ttf',
+        '/fonts/Averia Serif Simple Light.ttf',
+        '/fonts/Gramond.ttf'
+      ],
+      availableFonts: [
+        '/fonts/Averia Sans Libre Light.ttf',
+        '/fonts/Averia Serif Simple Light.ttf',
+        '/fonts/Gramond.ttf'
+      ],
+      workerUrl: '/assets/js/subtitles-octopus-worker.js',
+      timeOffset: -0.041
+    };
+    window.octopusInstance = new SubtitleOctopus(options);
+    window.changeResolution = function (width, height) {
+      video.style.width = width+'px'
+      video.style.height = height+'px'
+    }
+  </script>
+</body>
+
+</html>
