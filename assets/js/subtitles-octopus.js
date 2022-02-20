@@ -217,12 +217,12 @@ export default class SubtitlesOctopus extends EventTarget {
       if (this._onDemandRender !== true) {
         this._playstate = video.paused
 
-        video.addEventListener('timeupdate', this._timeupdate, false)
-        video.addEventListener('progress', this._timeupdate, false)
-        video.addEventListener('waiting', this._timeupdate, false)
-        video.addEventListener('seeking', this._timeupdate, false)
-        video.addEventListener('playing', this._timeupdate, false)
-        video.addEventListener('ratechange', this.setRate, false)
+        video.addEventListener('timeupdate', e => this._timeupdate(e), false)
+        video.addEventListener('progress', e => this._timeupdate(e), false)
+        video.addEventListener('waiting', e => this._timeupdate(e), false)
+        video.addEventListener('seeking', e => this._timeupdate(e), false)
+        video.addEventListener('playing', e => this._timeupdate(e), false)
+        video.addEventListener('ratechange', e => this.setRate(e), false)
       }
       if (video.videoWidth > 0) {
         this.resize()
