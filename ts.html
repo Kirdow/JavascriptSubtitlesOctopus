@@ -66,22 +66,22 @@
       3840x2160</button>
   </div>
   <script type="module">
-    import SubtitleOctopus from './assets/js/subtitles-octopus.js'
+    import SubtitleOctopus from '/JavascriptSubtitlesOctopus/assets/js/subtitles-octopus.js'
     // This would look more nice as a plugin but is's just as showcase of using with custom players
     var options = {
       video: video,
-      subUrl: '/subtitles/FGOBD.ass',
+      subUrl: '/JavascriptSubtitlesOctopus/subtitles/FGOBD.ass',
       fonts: [
-        '/fonts/Averia Sans Libre Light.ttf',
-        '/fonts/Averia Serif Simple Light.ttf',
-        '/fonts/Gramond.ttf'
+        '/JavascriptSubtitlesOctopus/fonts/Averia Sans Libre Light.ttf',
+        '/JavascriptSubtitlesOctopus/fonts/Averia Serif Simple Light.ttf',
+        '/JavascriptSubtitlesOctopus/fonts/Gramond.ttf'
       ],
       availableFonts: [
-        '/fonts/Averia Sans Libre Light.ttf',
-        '/fonts/Averia Serif Simple Light.ttf',
-        '/fonts/Gramond.ttf'
+        '/JavascriptSubtitlesOctopus/fonts/Averia Sans Libre Light.ttf',
+        '/JavascriptSubtitlesOctopus/fonts/Averia Serif Simple Light.ttf',
+        '/JavascriptSubtitlesOctopus/fonts/Gramond.ttf'
       ],
-      workerUrl: '/assets/js/subtitles-octopus-worker.js',
+      workerUrl: '/JavascriptSubtitlesOctopus/assets/js/subtitles-octopus-worker.js',
       timeOffset: -0.041
     };
     window.octopusInstance = new SubtitleOctopus(options);
