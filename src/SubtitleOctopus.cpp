@@ -194,7 +194,7 @@ public:
         result->dst_x = img->dst_x;
         result->dst_y = img->dst_y;
         result->bitmap = (unsigned char*)data;
-        result->next = next;
+        result->next = *next;
         *next = result;
     }
 
