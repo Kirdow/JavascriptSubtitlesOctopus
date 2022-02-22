@@ -176,7 +176,7 @@ public:
 
     void decodeBitmap(ASS_Image* img, ASS_Image** next) {
         if (img->w == 0 || img->h == 0) return;
-        auto a = (255 - (img->color & 255)) / 255;
+        float a = (255 - (img->color & 255)) / 255.0;
         if (a==0) return;
         auto c = ((img->color << 8) & 0xff0000) | ((img->color >> 8) & 0xff00) | ((img->color >> 24) & 0xff);
         auto data = new uint32_t[img->w * img->h];
@@ -185,7 +185,7 @@ public:
         for (uint32_t y = 0; y < img->h; pos += img->stride) {
             for (uint32_t z = 0; z < img->w; ++z, ++res) {
                 auto k = pos[z];
-                if (k) data[res] = ((a*k) << 24) | c;
+                if (k) data[res] = ((uint32_t)(a*k) << 24) | c;
             }
         }
         ASS_Image* result = new ASS_Image;
