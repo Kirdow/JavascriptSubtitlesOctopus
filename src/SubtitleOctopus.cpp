@@ -165,18 +165,18 @@ public:
     }
     ASS_Image* renderImage(double time, int* changed) {
         ASS_Image *img = ass_render_frame(ass_renderer, track, (int) (time * 1000), changed);
-        ASS_Image *decoded;
+        ASS_Image *decoded = 0;
         while (img) {
-            decodeBitmap(img, decoded);
+            decodeBitmap(img, &decoded);
             img=img->next;
         }
         return decoded;
     }
     /* CANVAS */
 
-    void decodeBitmap(ASS_Image* img, ASS_Image* next) {
+    void decodeBitmap(ASS_Image* img, ASS_Image** next) {
         if (img->w == 0 || img->h == 0) return;
-        auto a = (255-(img->color & 255)) /255;
+        auto a = (255 - (img->color & 255)) / 255;
         if (a==0) return;
         auto c = ((img->color << 8) & 0xff0000) | ((img->color >> 8) & 0xff00) | ((img->color >> 24) & 0xff);
         auto data = new uint32_t[img->w * img->h];
@@ -195,7 +195,7 @@ public:
         result->dst_y = img->dst_y;
         result->bitmap = (unsigned char*)data;
         result->next = next;
-        next = result;
+        *next = result;
     }
 
     void quitLibrary() {
