@@ -175,8 +175,10 @@ public:
     /* CANVAS */
 
     void decodeBitmap(ASS_Image* img, ASS_Image** next) {
+        printf("Width and height: %d %d", img->w, img->h);
         if (img->w == 0 || img->h == 0) return;
         float a = (255 - (img->color & 255)) / 255.0;
+        printf("Alpha %f", a);
         if (a==0) return;
         auto c = ((img->color << 8) & 0xff0000) | ((img->color >> 8) & 0xff00) | ((img->color >> 24) & 0xff);
         auto data = new uint32_t[img->w * img->h];
@@ -196,6 +198,7 @@ public:
         result->bitmap = (unsigned char*)data;
         result->next = *next;
         *next = result;
+        printf("Build single");
     }
 
     void quitLibrary() {
