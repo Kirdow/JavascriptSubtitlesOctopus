@@ -178,14 +178,17 @@ self.render = function (force) {
   const changed = Module.getValue(self.changed, 'i32')
   if (changed != 0 || force) {
     const result = self.buildResult(renderResult)
-    const spentTime = performance.now() - startTime
-    postMessage({
-      target: 'canvas',
-      op: 'renderCanvas',
-      time: Date.now(),
-      spentTime: spentTime,
-      canvases: result[0]
-    }, result[1])
+    const count = result[0].length
+    const spentTime = (performance.now() - startTime) / count
+    for (let index = 0; index < count; ++index) {
+      postMessage({
+        target: 'canvas',
+        op: 'renderCanvas',
+        time: Date.now(),
+        spentTime: spentTime,
+        canvases: [result[0][index]]
+      }, [result[1][index]])
+    }
   }
 
   if (!self._isPaused) {
