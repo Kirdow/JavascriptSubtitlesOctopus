@@ -178,7 +178,6 @@ self.render = function (force) {
   const changed = Module.getValue(self.changed, 'i32')
   if (changed != 0 || force) {
     const result = self.buildResult(renderResult)
-    result[0].forEach((item, index) => result[1][index] = result[0][index].buffer = HEAPU8.buffer.slice(item.image, item.image + item.w * item.h * 4));
     const spentTime = performance.now() - startTime
     postMessage({
       target: 'canvas',
