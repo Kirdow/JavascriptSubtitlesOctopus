@@ -273,8 +273,8 @@ self.buildResult = function (ptr) {
   while (ptr.ptr != 0) {
     item = self.buildResultItem(ptr)
     if (item !== null) {
-      items.push(item)
-      transferable.push(item.buffer)
+      items.unshift(item)
+      transferable.unshift(item.buffer)
     }
     ptr = ptr.next
   }

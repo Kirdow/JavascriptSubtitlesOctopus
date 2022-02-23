@@ -164,54 +164,29 @@ public:
         canvas_w = frame_w;
     }
     ASS_Image* renderImage(double time, int* changed) {
-        bool alwaysNull = true;
         ASS_Image *img = ass_render_frame(ass_renderer, track, (int) (time * 1000), changed);
         ASS_Image *decoded = NULL;
         while (img) {
-            alwaysNull = false;
-            decodeBitmap(img, &decoded);
+            decodeBitmap(img, decoded);
             img=img->next;
-        }
-
-        if (alwaysNull) {
-            printf("Img was null!\n");
-        } else {
-            printf("Img was available!\n");
-        }
-
-        if (decoded == NULL) {
-            printf("Decoded is null!\n");
         }
         return decoded;
     }
 
     /* CANVAS */
 
-    void decodeBitmap(ASS_Image* img, ASS_Image** next) {
-        if (img == NULL) {
-            printf("Image Null!\n");
-            return;
-        }
-
-        printf("Width and height: %d %d\n", img->w, img->h);
-        if (img->w == 0 || img->h == 0) {
-            printf("Invalid size!\n");
-            return;
-        }
-        double alphaFactor = (255 - (img->color & 255)) / 255.0;
-        printf("Alpha %f\n", alphaFactor);
-        if (alphaFactor < 1.0 / 255.0) {
-            printf("Alpha Factor 0!\n");
-            return;
-        }
+    void decodeBitmap(ASS_Image* img, ASS_Image*& next) {
+        if (img->w == 0 || img->h == 0) return;
+        double alpha = (255 - (img->color & 255)) / 255.0;
+        if (alpha == 0.0) return;
         uint32_t color = ((img->color << 8) & 0xff0000) | ((img->color >> 8) & 0xff00) | ((img->color >> 24) & 0xff);
         uint32_t* data = (uint32_t*)malloc(sizeof(uint32_t) * img->w * img->h);
-        uint8_t* pos = img->bitmap;
+        unsigned char* pos = img->bitmap;
         uint32_t res = 0;
         for (uint32_t y = 0; y < img->h; ++y, pos += img->stride) {
             for (uint32_t z = 0; z < img->w; ++z, ++res) {
-                uint32_t k = pos[z];
-                if (k != 0) data[res] = ((uint32_t)(alphaFactor*k) << 24) | color;
+                uint32_t mask = pos[z];
+                if (mask != 0) data[res] = ((uint32_t)(alpha*mask) << 24) | color;
             }
         }
         ASS_Image* result = (ASS_Image*)malloc(sizeof(ASS_Image));
@@ -219,10 +194,9 @@ public:
         result->h = img->h;
         result->dst_x = img->dst_x;
         result->dst_y = img->dst_y;
-        result->bitmap = (uint8_t*)data;
-        result->next = *next;
-        *next = result;
-        printf("Build single\n");
+        result->bitmap = (unsigned char*)data;
+        result->next = next;
+        next = result;
     }
 
     void quitLibrary() {
