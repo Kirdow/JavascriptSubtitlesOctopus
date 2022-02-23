@@ -208,7 +208,7 @@ public:
         uint32_t* data = (uint32_t*)malloc(sizeof(uint32_t) * img->w * img->h);
         uint8_t* pos = img->bitmap;
         uint32_t res = 0;
-        for (uint32_t y = 0; y < img->h; pos += img->stride) {
+        for (uint32_t y = 0; y < img->h; ++y, pos += img->stride) {
             for (uint32_t z = 0; z < img->w; ++z, ++res) {
                 uint32_t k = pos[z];
                 if (k != 0) data[res] = ((uint32_t)(alphaFactor*k) << 24) | color;
