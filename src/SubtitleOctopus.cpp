@@ -185,8 +185,8 @@ public:
         return decoded;
     }
 
-    static const ALPHA_EPSILON = 1.0 / 255.0;
-    
+    static const double ALPHA_EPSILON = 1.0 / 255.0;
+
     /* CANVAS */
 
     void decodeBitmap(ASS_Image* img, ASS_Image** next) {
