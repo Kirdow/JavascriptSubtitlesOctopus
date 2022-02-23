@@ -283,7 +283,7 @@ self.buildResult = function (ptr) {
 }
 
 self.buildResultItem = function (ptr) {
-  return { w: ptr.w, h: ptr.h, x: ptr.dst_x, y: ptr.dst_y, buffer: HEAPU8.buffer.slice(ptr.bitmap, ptr.bitmap + ptr.w * ptr.h * 4).buffer }
+  return { w: ptr.w, h: ptr.h, x: ptr.dst_x, y: ptr.dst_y, buffer: HEAPU8.buffer.slice(ptr.bitmap, ptr.bitmap + ptr.w * ptr.h * 4) }
 }
 
 if (typeof SDL !== 'undefined') {
