@@ -185,8 +185,6 @@ public:
         return decoded;
     }
 
-    static const double ALPHA_EPSILON = 1.0 / 255.0;
-
     /* CANVAS */
 
     void decodeBitmap(ASS_Image* img, ASS_Image** next) {
@@ -202,7 +200,7 @@ public:
         }
         double alphaFactor = (255 - (img->color & 255)) / 255.0;
         printf("Alpha %f\n", alphaFactor);
-        if (alphaFactor < ALPHA_EPSILON) {
+        if (alphaFactor < 1.0 / 255.0) {
             printf("Alpha Factor 0!\n");
             return;
         }
