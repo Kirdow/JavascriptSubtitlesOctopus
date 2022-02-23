@@ -178,17 +178,15 @@ self.render = function (force) {
   const changed = Module.getValue(self.changed, 'i32')
   if (changed != 0 || force) {
     const result = self.buildResult(renderResult)
-    const count = result[0].length
-    const spentTime = (performance.now() - startTime) / count
-    for (let index = 0; index < count; ++index) {
-      postMessage({
-        target: 'canvas',
-        op: 'renderCanvas',
-        time: Date.now(),
-        spentTime: spentTime,
-        canvases: [result[0][index]]
-      }, [result[1][index]])
-    }
+    result[0].forEach((item, index) => result[1][index] = result[0][index].buffer = HEAPU8.buffer.slice(item.image, item.image + item.w * item.h * 4));
+    const spentTime = performance.now() - startTime
+    postMessage({
+      target: 'canvas',
+      op: 'renderCanvas',
+      time: Date.now(),
+      spentTime: spentTime,
+      canvases: result[0]
+    }, result[1])
   }
 
   if (!self._isPaused) {
@@ -286,7 +284,7 @@ self.buildResult = function (ptr) {
 }
 
 self.buildResultItem = function (ptr) {
-  return { w: ptr.w, h: ptr.h, x: ptr.dst_x, y: ptr.dst_y, buffer: HEAPU8.subarray(ptr.bitmap, ptr.bitmap + ptr.w * ptr.h * 4).buffer }
+  return { w: ptr.w, h: ptr.h, x: ptr.dst_x, y: ptr.dst_y, buffer: HEAPU8.buffer.slice(ptr.bitmap, ptr.bitmap + ptr.w * ptr.h * 4).buffer }
 }
 
 if (typeof SDL !== 'undefined') {
