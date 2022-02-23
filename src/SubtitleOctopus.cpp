@@ -175,11 +175,9 @@ public:
     /* CANVAS */
 
     void decodeBitmap(ASS_Image* img, ASS_Image** next) {
-        int c = img->w;
-        int b = img->h;
-        printf("Width and height: %d %d\n", c, b);
+        printf("Width and height: %d %d\n", img->w, img->h);
         if (c == 0 || b == 0) return;
-        float a = (255 - (img->color & 255)) / 255.0;
+        auto a = (255 - (img->color & 255)) / 255.0;
         printf("Alpha %f\n", a);
         if (a==0) return;
         auto c = ((img->color << 8) & 0xff0000) | ((img->color >> 8) & 0xff00) | ((img->color >> 24) & 0xff);
